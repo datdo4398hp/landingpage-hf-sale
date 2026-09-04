@@ -6,7 +6,7 @@ export const FeatureBar: React.FC = () => {
     {
       icon: Zap,
       title: 'ĐĂNG KÝ NHANH',
-      subtitle: '100% trực tuyến'
+      subtitle: 'Đăng kí dễ dàng qua nền tảng Vietp2p'
     },
     {
       icon: ShieldCheck,
@@ -32,8 +32,8 @@ export const FeatureBar: React.FC = () => {
           {features.map((feat, idx) => {
             const IconComponent = feat.icon;
             return (
-              <div 
-                key={idx} 
+              <div
+                key={idx}
                 className={`flex items-center space-x-3.5 p-2 sm:p-3 ${idx !== 0 ? 'pt-4 md:pt-2' : ''}`}
               >
                 <div className="w-12 h-12 rounded-2xl bg-emerald-50 border border-emerald-100 flex items-center justify-center text-[#006837] shrink-0">

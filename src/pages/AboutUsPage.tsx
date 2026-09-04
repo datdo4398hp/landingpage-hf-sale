@@ -11,7 +11,7 @@ export const AboutUsPage: React.FC<AboutUsPageProps> = ({ onNavigate }) => {
   return (
     <div className="py-10 bg-slate-50 min-h-screen">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
-        
+
         {/* Header */}
         <div className="text-center max-w-3xl mx-auto space-y-3">
           <div className="inline-flex items-center space-x-2 text-xs font-semibold text-slate-500 bg-white px-3 py-1 rounded-full border border-slate-200">
@@ -24,7 +24,7 @@ export const AboutUsPage: React.FC<AboutUsPageProps> = ({ onNavigate }) => {
             NỀN TẢNG CÔNG NGHỆ TÀI CHÍNH VIET P2P
           </h1>
           <p className="text-sm sm:text-base text-slate-600 font-medium">
-            Tiên phong trong việc kết nối nhu cầu vay vốn tín chấp cá nhân với các đối tác tài chính uy tín thông qua công nghệ P2P Lending tiên tiến.
+            Tiên phong trong việc kết nối nhu cầu vay vốn tín chấp cá nhân với các đối tác tài chính uy tín thông qua công nghệ P2P Cho vay tiên tiến.
           </p>
         </div>
 

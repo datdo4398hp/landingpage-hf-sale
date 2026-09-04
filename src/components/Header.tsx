@@ -25,6 +25,7 @@ export const Header: React.FC<HeaderProps> = ({
     { label: 'Hướng dẫn', route: 'guide' },
     { label: 'Về Viet P2P', route: 'about' },
     { label: 'Tin tức', route: 'news' },
+    { label: 'Hướng dẫn', route: 'guide' },
   ];
 
   const handleNavClick = (route: PageRoute) => {
@@ -172,12 +173,19 @@ export const Header: React.FC<HeaderProps> = ({
           >
             Tin tức
           </button>
+          <button
+            onClick={() => handleNavClick('guide')}
+            className={`px-3 py-2 rounded-lg transition-colors ${currentRoute === 'guide' ? 'text-[#006837] bg-emerald-50' : 'hover:text-[#006837] hover:bg-slate-100'
+              }`}
+          >
+            Hướng dẫn
+          </button>
         </nav>
 
         {/* Action Buttons */}
         <div className="hidden lg:flex items-center space-x-3">
           <button
-            onClick={() => handleNavClick('guide')}
+            // onClick={() => handleNavClick('guide')}
             className="flex items-center space-x-1.5 px-3.5 py-2 rounded-xl border border-emerald-600/40 text-emerald-800 hover:bg-emerald-50 font-semibold text-xs transition-all shadow-2xs"
           >
             <Download className="w-3.5 h-3.5 text-[#006837]" />
@@ -251,6 +259,12 @@ export const Header: React.FC<HeaderProps> = ({
               className={`text-left px-3 py-2 rounded-lg ${currentRoute === 'contact' ? 'bg-emerald-50 text-[#006837]' : ''}`}
             >
               Liên hệ
+            </button>
+            <button
+              onClick={() => handleNavClick('guide')}
+              className={`text-left px-3 py-2 rounded-lg ${currentRoute === 'guide' ? 'bg-emerald-50 text-[#006837]' : ''}`}
+            >
+              Hướng dẫn
             </button>
           </div>
 

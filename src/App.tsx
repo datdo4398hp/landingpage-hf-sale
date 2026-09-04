@@ -189,7 +189,7 @@ export default function App() {
         return {
           title: 'Giới Thiệu Viet P2P | Nền Tảng Công Nghệ Tài Chính P2P Leading',
           description: 'Tìm hiểu về Viet P2P - Công ty tiên phong ứng dụng công nghệ AI & eKYC kết nối người vay và các đối tác ngân hàng hàng đầu.',
-          keywords: 'về Viet P2P, P2P lending Việt Nam, công nghệ tài chính fintech',
+          keywords: 'về Viet P2P, P2P cho vay Việt Nam, công nghệ tài chính fintech',
           canonicalUrl: 'https://viet-p2p.com/about-us',
           ogImage: 'https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=1200&q=80',
           jsonLdSchema: {
@@ -275,7 +275,7 @@ export default function App() {
 
   return (
     <div className="min-h-screen bg-slate-50 flex flex-col font-sans text-slate-800 antialiased selection:bg-emerald-200 selection:text-emerald-950">
-      
+
       {/* Toast Notification */}
       {toastMessage && (
         <div className="fixed bottom-6 right-6 z-50 bg-slate-900 text-emerald-300 px-5 py-3.5 rounded-2xl shadow-2xl border border-emerald-500/40 text-xs font-bold flex items-center space-x-2 animate-bounce">

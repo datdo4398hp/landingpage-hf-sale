@@ -41,13 +41,13 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
-          
+
           {/* Left Column: Heading, Bullets & CTAs (5 cols) */}
           <div className="lg:col-span-5 space-y-6">
             <div>
               <span className="inline-flex items-center space-x-1.5 px-3 py-1 rounded-full bg-emerald-100/80 text-[#006837] text-xs font-extrabold uppercase tracking-wider mb-3">
                 <Sparkles className="w-3.5 h-3.5 text-emerald-600" />
-                <span>Nền tảng P2P Lending Uy Tín</span>
+                <span>Nền tảng P2P Cho vay Uy Tín</span>
               </span>
               <h1 className="text-3xl sm:text-4xl lg:text-5xl font-black text-slate-900 tracking-tight leading-[1.15]">
                 VAY TÍN CHẤP <br className="hidden sm:inline" />
@@ -60,21 +60,25 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
 
             {/* Checklist */}
             <ul className="space-y-3 font-medium text-slate-700 text-sm sm:text-base">
-              <li className="flex items-start space-x-2.5">
+              {/* <li className="flex items-start space-x-2.5">
                 <CheckCircle2 className="w-5 h-5 text-[#006837] shrink-0 mt-0.5 fill-emerald-100" />
                 <span><strong>Không cần</strong> tài sản bảo đảm</span>
+              </li> */}
+              <li className="flex items-start space-x-2.5">
+                <CheckCircle2 className="w-5 h-5 text-[#006837] shrink-0 mt-0.5 fill-emerald-100" />
+                <span>Đăng ký <strong>trực tuyến</strong></span>
               </li>
               <li className="flex items-start space-x-2.5">
                 <CheckCircle2 className="w-5 h-5 text-[#006837] shrink-0 mt-0.5 fill-emerald-100" />
-                <span>Đăng ký <strong>100% online</strong></span>
+                <span> <strong>Minh bạch hồ sơ</strong> trong quá trình xử lý</span>
               </li>
               <li className="flex items-start space-x-2.5">
                 <CheckCircle2 className="w-5 h-5 text-[#006837] shrink-0 mt-0.5 fill-emerald-100" />
-                <span>Lãi suất <strong>minh bạch</strong>, không phí ẩn</span>
+                <span><strong>Giải ngân nhanh</strong> </span>
               </li>
               <li className="flex items-start space-x-2.5">
                 <CheckCircle2 className="w-5 h-5 text-[#006837] shrink-0 mt-0.5 fill-emerald-100" />
-                <span><strong>Giải ngân nhanh</strong> trong ngày*</span>
+                <span><strong>Bảo mật</strong> dữ liệu cá nhân tuyệt đối</span>
               </li>
             </ul>
 
@@ -91,7 +95,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
                 <span className="text-[11px] font-normal text-emerald-200">Nhận tư vấn miễn phí</span>
               </button>
 
-              <button
+              {/* <button
                 onClick={() => onNavigate('guide')}
                 className="bg-white hover:bg-emerald-50 text-emerald-900 border border-emerald-600/40 font-semibold px-5 py-3.5 rounded-xl text-sm transition-all flex flex-col items-center justify-center shadow-2xs"
               >
@@ -100,7 +104,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
                   <span>TẢI ỨNG DỤNG</span>
                 </div>
                 <span className="text-[11px] font-normal text-slate-500">Quản lý khoản vay</span>
-              </button>
+              </button> */}
             </div>
 
             {/* Social Proof Avatars */}
@@ -121,7 +125,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
             <div className="relative w-full max-w-xs sm:max-w-sm">
               {/* Green Glow Backdrop */}
               <div className="absolute inset-0 bg-emerald-600/10 rounded-3xl transform rotate-2 scale-105" />
-              
+
               <img
                 src="https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=800&q=80"
                 alt="Khách hàng vay vốn Viet P2P"

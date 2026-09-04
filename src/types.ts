@@ -1,17 +1,17 @@
-export type PageRoute = 
-  | 'home' 
-  | 'loans' 
+export type PageRoute =
+  | 'home'
+  | 'loans'
   | 'loan-detail'
-  | 'eligibility' 
-  | 'interest-fees' 
-  | 'guide' 
-  | 'about' 
-  | 'news' 
+  | 'eligibility'
+  | 'interest-fees'
+  | 'guide'
+  | 'about'
+  | 'news'
   | 'news-detail'
-  | 'faq' 
-  | 'apply' 
-  | 'contact' 
-  | 'terms' 
+  | 'faq'
+  | 'apply'
+  | 'contact'
+  | 'terms'
   | 'privacy';
 
 export interface LoanPackage {
@@ -19,8 +19,8 @@ export interface LoanPackage {
   name: string;
   badge?: string;
   iconName: string;
-  minAmount: number; // in VND
-  maxAmount: number; // in VND
+  // minAmount: number; // in VND
+  // maxAmount: number; // in VND
   minTermMonths: number;
   maxTermMonths: number;
   interestRateFrom: number; // e.g. 1.1% / month
@@ -47,7 +47,7 @@ export interface FullLoanApplication {
   email: string;
   referralCode?: string;
   city: string;
-  
+
   // Income & Employment (optional)
   jobType?: 'salaried' | 'business' | 'freelance' | 'other';
   monthlyIncome?: number;
