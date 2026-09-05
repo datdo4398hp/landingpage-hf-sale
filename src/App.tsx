@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useMemo } from 'react';
-import { PageRoute, SEOPageData, QuickConsultationForm } from './types';
-import { LOAN_PACKAGES, NEWS_ARTICLES, FAQ_ITEMS } from './data/mockData';
+import { Routes, Route, useLocation } from 'react-router-dom';
+import { SEOPageData, QuickConsultationForm } from './types';
+import { LOAN_PACKAGES, FAQ_ITEMS } from './data/mockData';
 
 // Components
 import { Header } from './components/Header';
@@ -29,11 +30,15 @@ import { FAQPage } from './pages/FAQPage';
 import { ContactPage } from './pages/ContactPage';
 import { LegalPage } from './pages/LegalPage';
 
-export default function App() {
-  const [currentRoute, setCurrentRoute] = useState<PageRoute>('home');
-  const [activePackageId, setActivePackageId] = useState<string>('vay-mua-oto');
-  const [activeArticleSlug, setActiveArticleSlug] = useState<string>('meo-duyet-vay-tin-chap-100-thanh-cong');
+function ScrollToTop() {
+  const { pathname } = useLocation();
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }, [pathname]);
+  return null;
+}
 
+export default function App() {
   // Modal & Drawer State
   const [applyModalOpen, setApplyModalOpen] = useState<boolean>(false);
   const [applyModalPkgId, setApplyModalPkgId] = useState<string>('vay-mua-oto');
@@ -43,13 +48,7 @@ export default function App() {
   const [seoDrawerOpen, setSeoDrawerOpen] = useState<boolean>(false);
   const [toastMessage, setToastMessage] = useState<string | null>(null);
 
-  // Scroll to top on navigation change
-  const handleNavigate = (route: PageRoute, params?: { packageId?: string; articleSlug?: string }) => {
-    if (params?.packageId) setActivePackageId(params.packageId);
-    if (params?.articleSlug) setActiveArticleSlug(params.articleSlug);
-    setCurrentRoute(route);
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  };
+  const location = useLocation();
 
   const handleOpenApplyModal = (pkgId?: string | unknown, amount?: number, term?: number) => {
     if (typeof pkgId === 'string' && pkgId.trim()) {
@@ -69,8 +68,43 @@ export default function App() {
 
   // Generate dynamic SEO metadata based on active route
   const activeSeoData: SEOPageData = useMemo(() => {
-    switch (currentRoute) {
-      case 'home':
+    const path = location.pathname;
+
+    if (path.startsWith('/loans/')) {
+      const packageId = path.split('/')[2];
+      const pkg = LOAN_PACKAGES.find(p => p.id === packageId) || LOAN_PACKAGES[0];
+      return {
+        title: `${pkg.name} | Duyệt Nhanh 24/7 Tại Viet P2P`,
+        description: `${pkg.description} Lãi suất từ ${pkg.interestRateFrom}%/tháng.`,
+        keywords: `${pkg.name}, vay tín chấp ${pkg.name}`,
+        canonicalUrl: `https://viet-p2p.com/loans/${pkg.id}`,
+        ogImage: 'https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?auto=format&fit=crop&w=1200&q=80',
+        jsonLdSchema: {
+          "@context": "https://schema.org",
+          "@type": "FinancialProduct",
+          "name": pkg.name,
+          "annualPercentageRate": `${pkg.interestRateFrom * 12}%`
+        }
+      };
+    }
+
+    if (path.startsWith('/news/')) {
+      return {
+        title: 'Cẩm Nang Tài Chính & Mẹo Vay Tiền Online | Viet P2P News',
+        description: 'Tổng hợp bài viết hướng dẫn lập kế hoạch tài chính cá nhân, mẹo nâng cao điểm tín dụng CIC và cập nhật lãi suất.',
+        keywords: 'cẩm nang vay tiền, tài chính cá nhân, kinh nghiệm duyệt vay 100%',
+        canonicalUrl: `https://viet-p2p.com${path}`,
+        ogImage: 'https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?auto=format&fit=crop&w=1200&q=80',
+        jsonLdSchema: {
+          "@context": "https://schema.org",
+          "@type": "BlogPosting",
+          "name": "Tin tức & Cẩm nang Viet P2P"
+        }
+      };
+    }
+
+    switch (path) {
+      case '/':
         return {
           title: 'Viet P2P - Giải pháp tài chính | Lãi Suất Minh Bạch, Duyệt Nhanh 24/7',
           description: 'Giải pháp nguồn vốn uy tín tại Việt Nam. Số tiền linh động, thủ tục đơn giản, giải ngân nhanh chóng.',
@@ -93,7 +127,7 @@ export default function App() {
           }
         };
 
-      case 'loans':
+      case '/loans':
         return {
           title: 'Danh Mục Các Gói Vay Tín Chấp Online | Viet P2P',
           description: 'So sánh và lựa chọn gói vay tiêu dùng, vay theo lương, vay nhanh online 15 phút, vay tiểu thương với lãi suất ưu đãi nhất.',
@@ -113,30 +147,7 @@ export default function App() {
           }
         };
 
-      case 'loan-detail': {
-        const pkg = LOAN_PACKAGES.find(p => p.id === activePackageId) || LOAN_PACKAGES[0];
-        return {
-          title: `${pkg.name} | Duyệt Nhanh 24/7 Tại Viet P2P`,
-          description: `${pkg.description} Hạn mức vay lên đến ${pFormatVND(pkg.maxAmount)}, lãi suất từ ${pkg.interestRateFrom}%/tháng.`,
-          keywords: `${pkg.name}, vay tín chấp ${pkg.name}, hạn mức ${pkg.maxAmount}`,
-          canonicalUrl: `https://viet-p2p.com/loans/${pkg.id}`,
-          ogImage: 'https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?auto=format&fit=crop&w=1200&q=80',
-          jsonLdSchema: {
-            "@context": "https://schema.org",
-            "@type": "FinancialProduct",
-            "name": pkg.name,
-            "amount": {
-              "@type": "MonetaryAmount",
-              "currency": "VND",
-              "minValue": pkg.minAmount,
-              "maxValue": pkg.maxAmount
-            },
-            "annualPercentageRate": `${pkg.interestRateFrom * 12}%`
-          }
-        };
-      }
-
-      case 'eligibility':
+      case '/eligibility':
         return {
           title: 'Điều Kiện & Hồ Sơ Vay Tín Chấp Online | Viet P2P',
           description: 'Kiểm tra ngay điều kiện vay tín chấp cá nhân chỉ trong 1 phút. Yêu cầu độ tuổi 18-60, CCCD gắn chip, không có nợ xấu.',
@@ -155,7 +166,7 @@ export default function App() {
           }
         };
 
-      case 'interest-fees':
+      case '/interest-fees':
         return {
           title: 'Biểu Lãi Suất & Phí Vay Tín Chấp Minh Bạch | Viet P2P',
           description: 'Xem bảng lãi suất vay tín chấp tính theo dư nợ giảm dần từ 0.95%/tháng. Cam kết 100% không thu phí ẩn, không phí hồ sơ.',
@@ -171,7 +182,7 @@ export default function App() {
           }
         };
 
-      case 'guide':
+      case '/guide':
         return {
           title: 'Hướng Dẫn Nộp Hồ Sơ & Thanh Toán Khoản Vay | Viet P2P',
           description: 'Hướng dẫn 4 bước đăng ký vay online nhanh nhất và 3 phương thức thanh toán lịch trả nợ hàng tháng linh hoạt.',
@@ -185,7 +196,7 @@ export default function App() {
           }
         };
 
-      case 'about':
+      case '/about':
         return {
           title: 'Giới Thiệu Viet P2P | Nền Tảng Công Nghệ Tài Chính P2P Leading',
           description: 'Tìm hiểu về Viet P2P - Công ty tiên phong ứng dụng công nghệ AI & eKYC kết nối người vay và các đối tác ngân hàng hàng đầu.',
@@ -201,8 +212,7 @@ export default function App() {
           }
         };
 
-      case 'news':
-      case 'news-detail':
+      case '/news':
         return {
           title: 'Cẩm Nang Tài Chính & Mẹo Vay Tiền Online | Viet P2P News',
           description: 'Tổng hợp bài viết hướng dẫn lập kế hoạch tài chính cá nhân, mẹo nâng cao điểm tín dụng CIC và cập nhật lãi suất.',
@@ -216,7 +226,7 @@ export default function App() {
           }
         };
 
-      case 'faq':
+      case '/faq':
         return {
           title: 'Câu Hỏi Thường Gặp (FAQ) Về Vay Tín Chấp | Viet P2P',
           description: 'Giải đáp thắc mắc chi tiết về thủ tục, nợ xấu, cách tính lãi và thời gian giải ngân tại Viet P2P.',
@@ -237,7 +247,7 @@ export default function App() {
           }
         };
 
-      case 'contact':
+      case '/contact':
         return {
           title: 'Liên Hệ Viet P2P | Hotline 1900 633 999 Hỗ Trợ 24/7',
           description: 'Địa chỉ trụ sở chính và thông tin đường dây nóng cskh@viet-p2p.com tiếp nhận giải đáp thắc mắc.',
@@ -261,21 +271,16 @@ export default function App() {
           jsonLdSchema: { "@context": "https://schema.org", "@type": "WebSite", "name": "Viet P2P" }
         };
     }
-  }, [currentRoute, activePackageId]);
+  }, [location.pathname]);
 
   // Update browser Document Title dynamically for SEO
   useEffect(() => {
     document.title = activeSeoData.title;
   }, [activeSeoData]);
 
-  // Helper formatting
-  function pFormatVND(val: number) {
-    return new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND', maximumFractionDigits: 0 }).format(val);
-  }
-
   return (
     <div className="min-h-screen bg-slate-50 flex flex-col font-sans text-slate-800 antialiased selection:bg-emerald-200 selection:text-emerald-950">
-
+      <ScrollToTop />
       {/* Toast Notification */}
       {toastMessage && (
         <div className="fixed bottom-6 right-6 z-50 bg-slate-900 text-emerald-300 px-5 py-3.5 rounded-2xl shadow-2xl border border-emerald-500/40 text-xs font-bold flex items-center space-x-2 animate-bounce">
@@ -286,114 +291,52 @@ export default function App() {
 
       {/* Main Sticky Header */}
       <Header
-        currentRoute={currentRoute}
-        onNavigate={handleNavigate}
         onOpenApplyModal={handleOpenApplyModal}
         onOpenSeoDrawer={() => setSeoDrawerOpen(true)}
       />
 
       {/* Main Route View Content */}
       <main className="flex-1">
-        {currentRoute === 'home' && (
-          <>
-            <HeroSection
-              onNavigate={handleNavigate}
-              onOpenApplyModal={handleOpenApplyModal}
-              onFormSubmitted={handleQuickConsultSubmitted}
-            />
-            <FeatureBar />
-            <LoanPackagesSection
-              onNavigate={handleNavigate}
-              onOpenApplyModal={handleOpenApplyModal}
-            />
-            <CalculatorAndAppSection
-              onNavigate={handleNavigate}
-              onOpenApplyModal={handleOpenApplyModal}
-            />
-            <LoanProcessSection />
-            <WhyChooseAndPartnersSection onNavigate={handleNavigate} />
-            <FAQSection onNavigate={handleNavigate} />
-            <BottomCTABanner
-              onNavigate={handleNavigate}
-              onOpenApplyModal={handleOpenApplyModal}
-            />
-          </>
-        )}
+        <Routes>
+          <Route path="/" element={
+            <>
+              <HeroSection
+                onOpenApplyModal={handleOpenApplyModal}
+                onFormSubmitted={handleQuickConsultSubmitted}
+              />
+              <FeatureBar />
+              <LoanPackagesSection
+                onOpenApplyModal={handleOpenApplyModal}
+              />
+              <CalculatorAndAppSection
+                onOpenApplyModal={handleOpenApplyModal}
+              />
+              <LoanProcessSection />
+              <WhyChooseAndPartnersSection />
+              <FAQSection />
+              <BottomCTABanner
+                onOpenApplyModal={handleOpenApplyModal}
+              />
+            </>
+          } />
 
-        {currentRoute === 'loans' && (
-          <LoansPage
-            onNavigate={handleNavigate}
-            onOpenApplyModal={handleOpenApplyModal}
-          />
-        )}
-
-        {currentRoute === 'loan-detail' && (
-          <LoanPackageDetailPage
-            packageId={activePackageId}
-            onNavigate={handleNavigate}
-            onOpenApplyModal={handleOpenApplyModal}
-          />
-        )}
-
-        {currentRoute === 'eligibility' && (
-          <EligibilityPage
-            onNavigate={handleNavigate}
-            onOpenApplyModal={handleOpenApplyModal}
-          />
-        )}
-
-        {currentRoute === 'interest-fees' && (
-          <InterestAndFeesPage
-            onNavigate={handleNavigate}
-            onOpenApplyModal={handleOpenApplyModal}
-          />
-        )}
-
-        {currentRoute === 'guide' && (
-          <GuidePage
-            onNavigate={handleNavigate}
-            onOpenApplyModal={handleOpenApplyModal}
-          />
-        )}
-
-        {currentRoute === 'about' && (
-          <AboutUsPage onNavigate={handleNavigate} />
-        )}
-
-        {currentRoute === 'news' && (
-          <NewsPage onNavigate={handleNavigate} />
-        )}
-
-        {currentRoute === 'news-detail' && (
-          <NewsDetailPage
-            articleSlug={activeArticleSlug}
-            onNavigate={handleNavigate}
-            onOpenApplyModal={handleOpenApplyModal}
-          />
-        )}
-
-        {currentRoute === 'faq' && (
-          <FAQPage
-            onNavigate={handleNavigate}
-            onOpenApplyModal={handleOpenApplyModal}
-          />
-        )}
-
-        {currentRoute === 'contact' && (
-          <ContactPage onNavigate={handleNavigate} />
-        )}
-
-        {currentRoute === 'terms' && (
-          <LegalPage type="terms" onNavigate={handleNavigate} />
-        )}
-
-        {currentRoute === 'privacy' && (
-          <LegalPage type="privacy" onNavigate={handleNavigate} />
-        )}
+          <Route path="/loans" element={<LoansPage onOpenApplyModal={handleOpenApplyModal} />} />
+          <Route path="/loans/:packageId" element={<LoanPackageDetailPage onOpenApplyModal={handleOpenApplyModal} />} />
+          <Route path="/eligibility" element={<EligibilityPage onOpenApplyModal={handleOpenApplyModal} />} />
+          <Route path="/interest-fees" element={<InterestAndFeesPage onOpenApplyModal={handleOpenApplyModal} />} />
+          <Route path="/guide" element={<GuidePage onOpenApplyModal={handleOpenApplyModal} />} />
+          <Route path="/about" element={<AboutUsPage />} />
+          <Route path="/news" element={<NewsPage />} />
+          <Route path="/news/:articleSlug" element={<NewsDetailPage onOpenApplyModal={handleOpenApplyModal} />} />
+          <Route path="/faq" element={<FAQPage onOpenApplyModal={handleOpenApplyModal} />} />
+          <Route path="/contact" element={<ContactPage />} />
+          <Route path="/terms" element={<LegalPage type="terms" />} />
+          <Route path="/privacy" element={<LegalPage type="privacy" />} />
+        </Routes>
       </main>
 
       {/* Main Footer */}
-      <Footer onNavigate={handleNavigate} />
+      <Footer />
 
       {/* Interactive Application Modal */}
       <ApplyModal
@@ -409,9 +352,8 @@ export default function App() {
         isOpen={seoDrawerOpen}
         onClose={() => setSeoDrawerOpen(false)}
         pageSeoData={activeSeoData}
-        currentPageName={currentRoute.toUpperCase()}
+        currentPageName={location.pathname}
       />
-
     </div>
   );
 }

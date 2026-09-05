@@ -1,15 +1,12 @@
 import React from 'react';
-import { Car, Home, Briefcase, ShieldCheck, ArrowRight, PhoneCall } from 'lucide-react';
+import { Car, Home, Briefcase, ShieldCheck, PhoneCall, CheckCircle2, UserCheck } from 'lucide-react';
 import { LOAN_PACKAGES } from '../data/mockData';
-import { PageRoute } from '../types';
 
 interface LoanPackagesSectionProps {
-  onNavigate: (route: PageRoute, params?: { packageId?: string }) => void;
   onOpenApplyModal: (packageId?: string) => void;
 }
 
 export const LoanPackagesSection: React.FC<LoanPackagesSectionProps> = ({
-  onNavigate,
   onOpenApplyModal
 }) => {
   const getIcon = (iconName: string) => {
@@ -41,12 +38,12 @@ export const LoanPackagesSection: React.FC<LoanPackagesSectionProps> = ({
           </p>
         </div>
 
-        {/* 4 Cards Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        {/* 2 Cards Grid */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8">
           {LOAN_PACKAGES.map((pkg) => (
             <div
               key={pkg.id}
-              className="bg-white rounded-2xl p-6 border border-slate-200/90 shadow-xs hover:shadow-xl hover:border-emerald-500/50 transition-all flex flex-col justify-between group relative overflow-hidden"
+              className="bg-white rounded-2xl p-6 lg:p-8 border border-slate-200/90 shadow-xs hover:shadow-xl hover:border-emerald-500/50 transition-all flex flex-col justify-between group relative overflow-hidden"
             >
               {/* Popular Badge if any */}
               {pkg.badge && (
@@ -56,40 +53,65 @@ export const LoanPackagesSection: React.FC<LoanPackagesSectionProps> = ({
               )}
 
               <div>
-                {/* Icon */}
-                <div className="w-14 h-14 rounded-2xl bg-emerald-50 border border-emerald-100/80 flex items-center justify-center mb-5 group-hover:bg-[#006837] group-hover:text-white transition-colors duration-300">
-                  <div className="group-hover:brightness-200 transition-all">
-                    {getIcon(pkg.iconName)}
+                {/* Header: Icon + Title + Description */}
+                <div className="mb-6">
+                  <div className="w-14 h-14 rounded-2xl bg-emerald-50 border border-emerald-100/80 flex items-center justify-center mb-5 group-hover:bg-[#006837] group-hover:text-white transition-colors duration-300">
+                    <div className="group-hover:brightness-200 transition-all">
+                      {getIcon(pkg.iconName)}
+                    </div>
                   </div>
+                  <h3 className="text-xl font-bold text-slate-900 mb-2 group-hover:text-[#006837] transition-colors">
+                    {pkg.name}
+                  </h3>
+                  <p className="text-sm text-slate-600 font-medium leading-relaxed">
+                    {pkg.description}
+                  </p>
                 </div>
 
-                {/* Title */}
-                <h3 className="text-lg font-bold text-slate-900 mb-2 group-hover:text-[#006837] transition-colors">
-                  {pkg.name}
-                </h3>
+                {/* Benefits & Requirements Grid */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-6">
+                  {/* Benefits */}
+                  <div>
+                    <h4 className="text-sm font-bold text-slate-900 mb-3 flex items-center gap-1.5">
+                      <CheckCircle2 className="w-4 h-4 text-emerald-600" />
+                      Lợi ích nổi bật
+                    </h4>
+                    <ul className="space-y-2">
+                      {pkg.benefits.map((benefit, idx) => (
+                        <li key={idx} className="text-xs text-slate-600 flex items-start">
+                          <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 mt-1.5 mr-2 shrink-0"></span>
+                          <span>{benefit}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
 
-                {/* Description */}
-                <p className="text-xs text-slate-600 font-medium mb-2 line-clamp-3 leading-relaxed">
-                  {pkg.description}
-                </p>
+                  {/* Requirements */}
+                  <div>
+                    <h4 className="text-sm font-bold text-slate-900 mb-3 flex items-center gap-1.5">
+                      <UserCheck className="w-4 h-4 text-blue-600" />
+                      Điều kiện cơ bản
+                    </h4>
+                    <ul className="space-y-2">
+                      {pkg.eligibilityRequirements.map((req, idx) => (
+                        <li key={idx} className="text-xs text-slate-600 flex items-start">
+                          <span className="w-1.5 h-1.5 rounded-full bg-blue-500 mt-1.5 mr-2 shrink-0"></span>
+                          <span>{req}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                </div>
               </div>
 
               {/* Actions */}
-              <div className="pt-4 border-t border-slate-100 space-y-2">
-                {/* <button
-                    onClick={() => onNavigate('loan-detail', { packageId: pkg.id })}
-                    className="w-full inline-flex items-center justify-between text-xs font-bold text-[#006837] hover:text-emerald-800 py-1.5 transition-colors group/link"
-                  >
-                    <span>Tìm hiểu thêm</span>
-                    <ArrowRight className="w-4 h-4 group-hover/link:translate-x-1 transition-transform" />
-                  </button> */}
-
+              <div className="pt-6 border-t border-slate-100 mt-auto">
                 <button
                   onClick={() => onOpenApplyModal(pkg.id)}
-                  className="w-full bg-slate-900 hover:bg-[#006837] text-white text-xs font-bold py-2.5 rounded-xl transition-colors shadow-2xs flex items-center justify-center space-x-1.5"
+                  className="w-full sm:w-auto px-8 bg-slate-900 hover:bg-[#006837] text-white text-sm font-bold py-3 rounded-xl transition-colors shadow-2xs flex items-center justify-center space-x-2"
                 >
-                  <PhoneCall className="w-3.5 h-3.5" />
-                  <span>Liên hệ tư vấn</span>
+                  <PhoneCall className="w-4 h-4" />
+                  <span>Liên hệ tư vấn ngay</span>
                 </button>
               </div>
             </div>

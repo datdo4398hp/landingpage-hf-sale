@@ -1,16 +1,14 @@
 import React, { useState } from 'react';
 import { CheckCircle2, ShieldCheck, Lock, User, Phone, Download, ArrowRight, Sparkles, MapPin, Tag } from 'lucide-react';
-import { QuickConsultationForm, PageRoute } from '../types';
+import { QuickConsultationForm } from '../types';
 import { VIETNAM_CITIES } from '../data/cities';
 
 interface HeroSectionProps {
-  onNavigate: (route: PageRoute) => void;
   onOpenApplyModal: (packageId?: string) => void;
   onFormSubmitted: (data: QuickConsultationForm) => void;
 }
 
 export const HeroSection: React.FC<HeroSectionProps> = ({
-  onNavigate,
   onOpenApplyModal,
   onFormSubmitted
 }) => {
@@ -94,17 +92,6 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
                 </div>
                 <span className="text-[11px] font-normal text-emerald-200">Nhận tư vấn miễn phí</span>
               </button>
-
-              {/* <button
-                onClick={() => onNavigate('guide')}
-                className="bg-white hover:bg-emerald-50 text-emerald-900 border border-emerald-600/40 font-semibold px-5 py-3.5 rounded-xl text-sm transition-all flex flex-col items-center justify-center shadow-2xs"
-              >
-                <div className="flex items-center space-x-1.5">
-                  <Download className="w-4 h-4 text-[#006837]" />
-                  <span>TẢI ỨNG DỤNG</span>
-                </div>
-                <span className="text-[11px] font-normal text-slate-500">Quản lý khoản vay</span>
-              </button> */}
             </div>
 
             {/* Social Proof Avatars */}

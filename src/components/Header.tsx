@@ -1,35 +1,26 @@
 import React, { useState } from 'react';
 import { Download, ShieldCheck, Menu, X, ChevronDown, Search, Award } from 'lucide-react';
-import { PageRoute } from '../types';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
+import { LOAN_PACKAGES } from '../data/mockData';
 
 interface HeaderProps {
-  currentRoute: PageRoute;
-  onNavigate: (route: PageRoute, params?: { packageId?: string; articleSlug?: string }) => void;
   onOpenApplyModal: (packageId?: string) => void;
   onOpenSeoDrawer: () => void;
 }
 
 export const Header: React.FC<HeaderProps> = ({
-  currentRoute,
-  onNavigate,
   onOpenApplyModal,
   onOpenSeoDrawer
 }) => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [productsDropdownOpen, setProductsDropdownOpen] = useState(false);
 
-  const navLinks: { label: string; route: PageRoute; hasDropdown?: boolean }[] = [
-    { label: 'Vay tín chấp', route: 'loans', hasDropdown: true },
-    { label: 'Điều kiện vay', route: 'eligibility' },
-    { label: 'Lãi suất & phí', route: 'interest-fees' },
-    { label: 'Hướng dẫn', route: 'guide' },
-    { label: 'Về Viet P2P', route: 'about' },
-    { label: 'Tin tức', route: 'news' },
-    { label: 'Hướng dẫn', route: 'guide' },
-  ];
+  const navigate = useNavigate();
+  const location = useLocation();
+  const currentPath = location.pathname;
 
-  const handleNavClick = (route: PageRoute) => {
-    onNavigate(route);
+  const handleNavClick = (path: string) => {
+    navigate(path);
     setMobileMenuOpen(false);
     setProductsDropdownOpen(false);
   };
@@ -49,19 +40,6 @@ export const Header: React.FC<HeaderProps> = ({
               Hotline tư vấn: <strong className="text-white">1900 571 239</strong>
             </span>
           </div>
-
-          {/* <div className="flex items-center space-x-3">
-            <button
-              onClick={onOpenSeoDrawer}
-              className="flex items-center space-x-1 text-[11px] bg-emerald-800/80 hover:bg-emerald-800 px-2 py-0.5 rounded text-emerald-100 font-medium transition-colors"
-              title="Xem Công cụ Tối ưu SEO & JSON-LD"
-            >
-              <Award className="w-3 h-3 text-amber-300" />
-              <span>SEO Inspector</span>
-            </button>
-            <span className="text-emerald-200">|</span>
-            <span className="text-emerald-100 hidden sm:inline">Duyệt hồ sơ siêu tốc</span>
-          </div> */}
         </div>
       </div>
 
@@ -69,7 +47,7 @@ export const Header: React.FC<HeaderProps> = ({
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 flex items-center justify-between">
         {/* Brand Logo */}
         <div
-          onClick={() => handleNavClick('home')}
+          onClick={() => handleNavClick('/')}
           className="flex items-center space-x-3 cursor-pointer group select-none"
         >
           <div className="w-10 h-10 rounded-xl bg-[#006837] flex items-center justify-center text-white shadow-md shadow-emerald-900/10 group-hover:scale-105 transition-transform">
@@ -88,8 +66,8 @@ export const Header: React.FC<HeaderProps> = ({
         {/* Desktop Nav */}
         <nav className="hidden lg:flex items-center space-x-1 font-semibold text-sm text-slate-700">
           <button
-            onClick={() => handleNavClick('home')}
-            className={`px-3 py-2 rounded-lg transition-colors ${currentRoute === 'home' ? 'text-[#006837] bg-emerald-50' : 'hover:text-[#006837] hover:bg-slate-100'
+            onClick={() => handleNavClick('/')}
+            className={`px-3 py-2 rounded-lg transition-colors ${currentPath === '/' ? 'text-[#006837] bg-emerald-50' : 'hover:text-[#006837] hover:bg-slate-100'
               }`}
           >
             Trang chủ
@@ -98,9 +76,9 @@ export const Header: React.FC<HeaderProps> = ({
           {/* Vay tín chấp (with Dropdown) */}
           <div className="relative group">
             <button
-              onClick={() => handleNavClick('loans')}
+              onClick={() => handleNavClick('/loans')}
               onMouseEnter={() => setProductsDropdownOpen(true)}
-              className={`px-3 py-2 rounded-lg flex items-center space-x-1 transition-colors ${currentRoute === 'loans' || currentRoute === 'loan-detail' ? 'text-[#006837] bg-emerald-50' : 'hover:text-[#006837] hover:bg-slate-100'
+              className={`px-3 py-2 rounded-lg flex items-center space-x-1 transition-colors ${currentPath.startsWith('/loans') ? 'text-[#006837] bg-emerald-50' : 'hover:text-[#006837] hover:bg-slate-100'
                 }`}
             >
               <span>Vay tín chấp</span>
@@ -111,71 +89,44 @@ export const Header: React.FC<HeaderProps> = ({
             <div className="absolute left-0 top-full pt-2 w-64 hidden group-hover:block z-50">
               <div className="bg-white rounded-2xl shadow-xl border border-slate-200/80 p-2 space-y-1">
                 <button
-                  onClick={() => handleNavClick('loans')}
+                  onClick={() => handleNavClick('/loans')}
                   className="w-full text-left px-3 py-2 text-xs font-bold text-slate-400 uppercase tracking-wider hover:text-slate-600"
                 >
                   Tất cả các gói vay →
                 </button>
                 <div className="h-px bg-slate-100 my-1" />
-                <button
-                  onClick={() => { onNavigate('loan-detail', { packageId: 'vay-mua-oto' }); setProductsDropdownOpen(false); }}
-                  className="w-full text-left px-3 py-2.5 rounded-xl hover:bg-emerald-50 text-slate-800 text-sm font-semibold flex items-center space-x-2 group/item"
-                >
-                  <span className="w-2 h-2 rounded-full bg-emerald-500 group-hover/item:scale-125 transition-transform" />
-                  <span>Vay mua ô tô</span>
-                </button>
-                <button
-                  onClick={() => { onNavigate('loan-detail', { packageId: 'vay-mua-nha' }); setProductsDropdownOpen(false); }}
-                  className="w-full text-left px-3 py-2.5 rounded-xl hover:bg-emerald-50 text-slate-800 text-sm font-semibold flex items-center space-x-2 group/item"
-                >
-                  <span className="w-2 h-2 rounded-full bg-emerald-500 group-hover/item:scale-125 transition-transform" />
-                  <span>Vay mua nhà</span>
-                </button>
-                <button
-                  onClick={() => { onNavigate('loan-detail', { packageId: 'vay-kinh-doanh' }); setProductsDropdownOpen(false); }}
-                  className="w-full text-left px-3 py-2.5 rounded-xl hover:bg-emerald-50 text-slate-800 text-sm font-semibold flex items-center space-x-2 group/item"
-                >
-                  <span className="w-2 h-2 rounded-full bg-emerald-500 group-hover/item:scale-125 transition-transform" />
-                  <span>Vay kinh doanh</span>
-                </button>
-                <button
-                  onClick={() => { onNavigate('loan-detail', { packageId: 'vay-tieu-dung-the-chap' }); setProductsDropdownOpen(false); }}
-                  className="w-full text-left px-3 py-2.5 rounded-xl hover:bg-emerald-50 text-slate-800 text-sm font-semibold flex items-center space-x-2 group/item"
-                >
-                  <span className="w-2 h-2 rounded-full bg-emerald-500 group-hover/item:scale-125 transition-transform" />
-                  <span>Vay tiêu dùng thế chấp</span>
-                </button>
+                {LOAN_PACKAGES.map((pkg) => (
+                  <button
+                    key={pkg.id}
+                    onClick={() => handleNavClick(`/loans/${pkg.id}`)}
+                    className="w-full text-left px-3 py-2.5 rounded-xl hover:bg-emerald-50 text-slate-800 text-sm font-semibold flex items-center space-x-2 group/item"
+                  >
+                    <span className="w-2 h-2 rounded-full bg-emerald-500 group-hover/item:scale-125 transition-transform" />
+                    <span>{pkg.name}</span>
+                  </button>
+                ))}
               </div>
             </div>
           </div>
 
-          {/* <button
-            onClick={() => handleNavClick('guide')}
-            className={`px-3 py-2 rounded-lg transition-colors ${
-              currentRoute === 'guide' ? 'text-[#006837] bg-emerald-50' : 'hover:text-[#006837] hover:bg-slate-100'
-            }`}
-          >
-            Hướng dẫn
-          </button> */}
-
           <button
-            onClick={() => handleNavClick('about')}
-            className={`px-3 py-2 rounded-lg transition-colors ${currentRoute === 'about' ? 'text-[#006837] bg-emerald-50' : 'hover:text-[#006837] hover:bg-slate-100'
+            onClick={() => handleNavClick('/about')}
+            className={`px-3 py-2 rounded-lg transition-colors ${currentPath === '/about' ? 'text-[#006837] bg-emerald-50' : 'hover:text-[#006837] hover:bg-slate-100'
               }`}
           >
             Về Viet P2P
           </button>
 
           <button
-            onClick={() => handleNavClick('news')}
-            className={`px-3 py-2 rounded-lg transition-colors ${currentRoute === 'news' || currentRoute === 'news-detail' ? 'text-[#006837] bg-emerald-50' : 'hover:text-[#006837] hover:bg-slate-100'
+            onClick={() => handleNavClick('/news')}
+            className={`px-3 py-2 rounded-lg transition-colors ${currentPath.startsWith('/news') ? 'text-[#006837] bg-emerald-50' : 'hover:text-[#006837] hover:bg-slate-100'
               }`}
           >
             Tin tức
           </button>
           <button
-            onClick={() => handleNavClick('guide')}
-            className={`px-3 py-2 rounded-lg transition-colors ${currentRoute === 'guide' ? 'text-[#006837] bg-emerald-50' : 'hover:text-[#006837] hover:bg-slate-100'
+            onClick={() => handleNavClick('/guide')}
+            className={`px-3 py-2 rounded-lg transition-colors ${currentPath === '/guide' ? 'text-[#006837] bg-emerald-50' : 'hover:text-[#006837] hover:bg-slate-100'
               }`}
           >
             Hướng dẫn
@@ -185,7 +136,6 @@ export const Header: React.FC<HeaderProps> = ({
         {/* Action Buttons */}
         <div className="hidden lg:flex items-center space-x-3">
           <button
-            // onClick={() => handleNavClick('guide')}
             className="flex items-center space-x-1.5 px-3.5 py-2 rounded-xl border border-emerald-600/40 text-emerald-800 hover:bg-emerald-50 font-semibold text-xs transition-all shadow-2xs"
           >
             <Download className="w-3.5 h-3.5 text-[#006837]" />
@@ -225,44 +175,38 @@ export const Header: React.FC<HeaderProps> = ({
         <div className="lg:hidden bg-white border-b border-slate-200 px-4 pt-2 pb-6 space-y-2 animate-in slide-in-from-top-2 duration-200">
           <div className="grid grid-cols-1 gap-1 font-semibold text-slate-800">
             <button
-              onClick={() => handleNavClick('home')}
-              className={`text-left px-3 py-2 rounded-lg ${currentRoute === 'home' ? 'bg-emerald-50 text-[#006837]' : ''}`}
+              onClick={() => handleNavClick('/')}
+              className={`text-left px-3 py-2 rounded-lg ${currentPath === '/' ? 'bg-emerald-50 text-[#006837]' : ''}`}
             >
               Trang chủ
             </button>
             <button
-              onClick={() => handleNavClick('loans')}
-              className={`text-left px-3 py-2 rounded-lg ${currentRoute === 'loans' ? 'bg-emerald-50 text-[#006837]' : ''}`}
+              onClick={() => handleNavClick('/loans')}
+              className={`text-left px-3 py-2 rounded-lg ${currentPath.startsWith('/loans') ? 'bg-emerald-50 text-[#006837]' : ''}`}
             >
               Vay tín chấp
             </button>
-            {/* <button
-              onClick={() => handleNavClick('guide')}
-              className={`text-left px-3 py-2 rounded-lg ${currentRoute === 'guide' ? 'bg-emerald-50 text-[#006837]' : ''}`}
-            >
-              Hướng dẫn
-            </button> */}
             <button
-              onClick={() => handleNavClick('about')}
-              className={`text-left px-3 py-2 rounded-lg ${currentRoute === 'about' ? 'bg-emerald-50 text-[#006837]' : ''}`}
+              onClick={() => handleNavClick('/about')}
+              className={`text-left px-3 py-2 rounded-lg ${currentPath === '/about' ? 'bg-emerald-50 text-[#006837]' : ''}`}
             >
               Về Viet P2P
             </button>
             <button
-              onClick={() => handleNavClick('news')}
-              className={`text-left px-3 py-2 rounded-lg ${currentRoute === 'news' ? 'bg-emerald-50 text-[#006837]' : ''}`}
+              onClick={() => handleNavClick('/news')}
+              className={`text-left px-3 py-2 rounded-lg ${currentPath.startsWith('/news') ? 'bg-emerald-50 text-[#006837]' : ''}`}
             >
               Tin tức & Cẩm nang
             </button>
             <button
-              onClick={() => handleNavClick('contact')}
-              className={`text-left px-3 py-2 rounded-lg ${currentRoute === 'contact' ? 'bg-emerald-50 text-[#006837]' : ''}`}
+              onClick={() => handleNavClick('/contact')}
+              className={`text-left px-3 py-2 rounded-lg ${currentPath === '/contact' ? 'bg-emerald-50 text-[#006837]' : ''}`}
             >
               Liên hệ
             </button>
             <button
-              onClick={() => handleNavClick('guide')}
-              className={`text-left px-3 py-2 rounded-lg ${currentRoute === 'guide' ? 'bg-emerald-50 text-[#006837]' : ''}`}
+              onClick={() => handleNavClick('/guide')}
+              className={`text-left px-3 py-2 rounded-lg ${currentPath === '/guide' ? 'bg-emerald-50 text-[#006837]' : ''}`}
             >
               Hướng dẫn
             </button>

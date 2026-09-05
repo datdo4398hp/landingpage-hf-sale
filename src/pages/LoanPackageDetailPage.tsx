@@ -23,7 +23,7 @@ export const LoanPackageDetailPage: React.FC<LoanPackageDetailPageProps> = ({
   return (
     <div className="py-10 bg-slate-50 min-h-screen">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10">
-        
+
         {/* Breadcrumb */}
         <div className="flex items-center space-x-2 text-xs font-semibold text-slate-500 bg-white px-4 py-2 rounded-full border border-slate-200 inline-flex">
           <button onClick={() => onNavigate('home')} className="hover:text-[#006837]">Trang chủ</button>
@@ -49,7 +49,7 @@ export const LoanPackageDetailPage: React.FC<LoanPackageDetailPageProps> = ({
             </p>
 
             {/* Quick Specs */}
-            <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 pt-2">
+            {/* <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 pt-2">
               <div className="bg-slate-50 p-3.5 rounded-2xl border border-slate-200">
                 <span className="text-[11px] text-slate-500 font-bold block uppercase">Hạn mức vay</span>
                 <strong className="text-lg font-black text-[#006837]">
@@ -70,7 +70,7 @@ export const LoanPackageDetailPage: React.FC<LoanPackageDetailPageProps> = ({
                   100% Online / eKYC
                 </strong>
               </div>
-            </div>
+            </div> */}
           </div>
 
           <div className="lg:col-span-4 bg-emerald-50 rounded-3xl p-6 border border-emerald-200 text-center space-y-4">
@@ -92,7 +92,7 @@ export const LoanPackageDetailPage: React.FC<LoanPackageDetailPageProps> = ({
 
         {/* Deep Details Section */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
-          
+
           {/* Left Details */}
           <div className="lg:col-span-8 space-y-8">
             {/* Benefits */}

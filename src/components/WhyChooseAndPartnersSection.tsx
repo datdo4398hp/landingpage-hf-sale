@@ -1,15 +1,11 @@
 import React from 'react';
 import { Lightbulb, Shield, Handshake, Headphones, ArrowRight, Building2 } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 import { FINANCIAL_PARTNERS } from '../data/mockData';
-import { PageRoute } from '../types';
 
-interface WhyChooseAndPartnersSectionProps {
-  onNavigate: (route: PageRoute) => void;
-}
+export const WhyChooseAndPartnersSection: React.FC = () => {
+  const navigate = useNavigate();
 
-export const WhyChooseAndPartnersSection: React.FC<WhyChooseAndPartnersSectionProps> = ({
-  onNavigate
-}) => {
   return (
     <section className="py-12 lg:py-16 bg-white border-b border-slate-200/80">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -67,7 +63,7 @@ export const WhyChooseAndPartnersSection: React.FC<WhyChooseAndPartnersSectionPr
 
             <div className="pt-6 border-t border-emerald-800/80">
               <button
-                onClick={() => onNavigate('about')}
+                onClick={() => navigate('/about')}
                 className="inline-flex items-center space-x-2 text-xs font-bold text-emerald-200 hover:text-white transition-colors"
               >
                 <span>Tìm hiểu về công nghệ P2P của Viet P2P</span>
@@ -108,7 +104,7 @@ export const WhyChooseAndPartnersSection: React.FC<WhyChooseAndPartnersSectionPr
 
             <div className="text-center pt-4 border-t border-slate-200">
               <button
-                onClick={() => onNavigate('about')}
+                onClick={() => navigate('/about')}
                 className="inline-flex items-center space-x-1.5 text-xs font-bold text-[#006837] hover:underline"
               >
                 <span>Xem tất cả đối tác</span>

@@ -1,19 +1,15 @@
 import React from 'react';
 import { Phone, Mail, Clock, ShieldCheck, Facebook, Youtube } from 'lucide-react';
-import { PageRoute } from '../types';
+import { Link } from 'react-router-dom';
 
-interface FooterProps {
-  onNavigate: (route: PageRoute, params?: { packageId?: string }) => void;
-}
-
-export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
+export const Footer: React.FC = () => {
   return (
     <footer className="bg-[#002d18] text-slate-300 text-xs pt-12 pb-8 border-t border-emerald-950">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10">
         
         {/* Top Brand & Socials */}
         <div className="flex flex-col md:flex-row items-start md:items-center justify-between pb-8 border-b border-emerald-900/60 gap-4">
-          <div className="flex items-center space-x-3 cursor-pointer" onClick={() => onNavigate('home')}>
+          <Link to="/" className="flex items-center space-x-3 cursor-pointer">
             <div className="w-10 h-10 rounded-xl bg-white flex items-center justify-center text-[#006837] shadow-md">
               <svg className="w-6 h-6 fill-current text-[#006837]" viewBox="0 0 24 24">
                 <path d="M12 2L3 7v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-5.45 9-12V7l-9-5zm-2 16l-4-4 1.41-1.41L10 15.17l6.59-6.59L18 10l-8 8z" />
@@ -23,7 +19,7 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
               <span className="text-xl font-extrabold text-white tracking-tight">Viet P2P</span>
               <p className="text-[10px] text-emerald-300 font-medium">Vay tín chấp cá nhân</p>
             </div>
-          </div>
+          </Link>
 
           <div className="flex items-center space-x-3">
             <span className="text-slate-400 font-bold text-xs mr-1">Kết nối với chúng tôi:</span>
@@ -47,24 +43,24 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
             <h4 className="font-extrabold text-white uppercase text-xs tracking-wider mb-3">SẢN PHẨM</h4>
             <ul className="space-y-2 text-slate-300">
               <li>
-                <button onClick={() => onNavigate('loan-detail', { packageId: 'vay-mua-oto' })} className="hover:text-emerald-300 transition-colors">
+                <Link to="/loans/vay-mua-oto" className="hover:text-emerald-300 transition-colors">
                   Vay mua ô tô
-                </button>
+                </Link>
               </li>
               <li>
-                <button onClick={() => onNavigate('loan-detail', { packageId: 'vay-mua-nha' })} className="hover:text-emerald-300 transition-colors">
+                <Link to="/loans/vay-mua-nha" className="hover:text-emerald-300 transition-colors">
                   Vay mua nhà
-                </button>
+                </Link>
               </li>
               <li>
-                <button onClick={() => onNavigate('loan-detail', { packageId: 'vay-kinh-doanh' })} className="hover:text-emerald-300 transition-colors">
+                <Link to="/loans/vay-kinh-doanh" className="hover:text-emerald-300 transition-colors">
                   Vay kinh doanh
-                </button>
+                </Link>
               </li>
               <li>
-                <button onClick={() => onNavigate('loan-detail', { packageId: 'vay-tieu-dung-the-chap' })} className="hover:text-emerald-300 transition-colors">
+                <Link to="/loans/vay-tieu-dung-the-chap" className="hover:text-emerald-300 transition-colors">
                   Vay tiêu dùng thế chấp
-                </button>
+                </Link>
               </li>
             </ul>
           </div>
@@ -74,24 +70,24 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
             <h4 className="font-extrabold text-white uppercase text-xs tracking-wider mb-3">HỖ TRỢ</h4>
             <ul className="space-y-2 text-slate-300">
               <li>
-                <button onClick={() => onNavigate('eligibility')} className="hover:text-emerald-300 transition-colors">
+                <Link to="/eligibility" className="hover:text-emerald-300 transition-colors">
                   Điều kiện vay
-                </button>
+                </Link>
               </li>
               <li>
-                <button onClick={() => onNavigate('eligibility')} className="hover:text-emerald-300 transition-colors">
+                <Link to="/eligibility" className="hover:text-emerald-300 transition-colors">
                   Hồ sơ vay
-                </button>
+                </Link>
               </li>
               <li>
-                <button onClick={() => onNavigate('interest-fees')} className="hover:text-emerald-300 transition-colors">
+                <Link to="/interest-fees" className="hover:text-emerald-300 transition-colors">
                   Lãi suất & phí
-                </button>
+                </Link>
               </li>
               <li>
-                <button onClick={() => onNavigate('guide')} className="hover:text-emerald-300 transition-colors">
+                <Link to="/guide" className="hover:text-emerald-300 transition-colors">
                   Hướng dẫn vay
-                </button>
+                </Link>
               </li>
             </ul>
           </div>
@@ -101,24 +97,24 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
             <h4 className="font-extrabold text-white uppercase text-xs tracking-wider mb-3">VỀ CHÚNG TÔI</h4>
             <ul className="space-y-2 text-slate-300">
               <li>
-                <button onClick={() => onNavigate('about')} className="hover:text-emerald-300 transition-colors">
+                <Link to="/about" className="hover:text-emerald-300 transition-colors">
                   Giới thiệu Viet P2P
-                </button>
+                </Link>
               </li>
               <li>
-                <button onClick={() => onNavigate('news')} className="hover:text-emerald-300 transition-colors">
+                <Link to="/news" className="hover:text-emerald-300 transition-colors">
                   Tin tức & Cẩm nang
-                </button>
+                </Link>
               </li>
               <li>
-                <button onClick={() => onNavigate('faq')} className="hover:text-emerald-300 transition-colors">
+                <Link to="/faq" className="hover:text-emerald-300 transition-colors">
                   Câu hỏi thường gặp
-                </button>
+                </Link>
               </li>
               <li>
-                <button onClick={() => onNavigate('contact')} className="hover:text-emerald-300 transition-colors">
+                <Link to="/contact" className="hover:text-emerald-300 transition-colors">
                   Liên hệ
-                </button>
+                </Link>
               </li>
             </ul>
           </div>
@@ -165,17 +161,17 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
           <p>© 2025 Viet P2P. All rights reserved.</p>
 
           <div className="flex flex-wrap items-center gap-4">
-            <button onClick={() => onNavigate('terms')} className="hover:text-emerald-300 transition-colors">
+            <Link to="/terms" className="hover:text-emerald-300 transition-colors">
               Điều khoản sử dụng
-            </button>
+            </Link>
             <span>|</span>
-            <button onClick={() => onNavigate('privacy')} className="hover:text-emerald-300 transition-colors">
+            <Link to="/privacy" className="hover:text-emerald-300 transition-colors">
               Chính sách bảo mật
-            </button>
+            </Link>
             <span>|</span>
-            <button onClick={() => onNavigate('terms')} className="hover:text-emerald-300 transition-colors">
+            <Link to="/terms" className="hover:text-emerald-300 transition-colors">
               Chính sách xử lý dữ liệu cá nhân
-            </button>
+            </Link>
           </div>
         </div>
 
