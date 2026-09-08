@@ -311,7 +311,7 @@ export default function App() {
               <CalculatorAndAppSection
                 onOpenApplyModal={handleOpenApplyModal}
               />
-              <LoanProcessSection />
+              <LoanProcessSection onOpenApplyModal={handleOpenApplyModal} />
               <WhyChooseAndPartnersSection />
               <FAQSection />
               <BottomCTABanner

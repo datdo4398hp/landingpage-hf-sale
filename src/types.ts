@@ -85,12 +85,13 @@ export interface NewsArticle {
   title: string;
   summary: string;
   content: string;
-  category: 'Cẩm nang vay' | 'Tài chính cá nhân' | 'Tin tức Viet P2P';
+  category: 'Cẩm nang vay' | 'Tài chính cá nhân' | 'Tin tức Viet P2P' | 'Tin tức' | 'Tin Nội bộ' | 'Kiến thức vay';
   author: string;
   publishedDate: string;
   readTime: string;
   imageUrl: string;
   tags: string[];
+  sourceUrl?: string;
 }
 
 export interface SEOPageData {
